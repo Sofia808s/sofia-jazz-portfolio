@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sofia — Jazz Pianist</title>
+
+<style>
+  /* ===== RESET ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: #0b0b0b;
+    color: #f4f4f4;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .container { width: min(1100px, 92%); margin: 0 auto; }
+  section { padding: 84px 0; border-top: 1px solid #1f1f1f; }
+  h1, h2 { letter-spacing: 0.06em; }
+  h2 { font-size: 28px; margin-bottom: 20px; }
+  p { color: #d7d7d7; }
+
+  .kicker {
+    letter-spacing: 0.25em;
+    font-size: 12px;
+    color: #bdbdbd;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed;
+    top: 16px; left: 0; right: 0;
+    z-index: 30;
+  }
+  .nav-inner {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border: 1px solid #242424;
+    background: rgba(10,10,10,0.65);
+    backdrop-filter: blur(10px);
+  }
+  .brand {
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 10px; }
+  .nav-links a {
+    font-size: 12px;
+    color: #cfcfcf;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    transition: 180ms;
+  }
+  .nav-links a:hover {
+    border-color: #f4f4f4;
+    color: #0b0b0b;
+    background: #f4f4f4;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 110px 0 70px;
+    border-top: none;
+    background:
+      radial-gradient(650px 320px at 35% 30%, rgba(255,255,255,0.10), transparent 60%),
+      radial-gradient(520px 260px at 65% 35%, rgba(255,255,255,0.06), transparent 60%),
+      linear-gradient(to bottom, #000, #0b0b0b);
+  }
+  .hero-card {
+    width: min(920px, 92%);
+    border: 1px solid #222;
+    background: rgba(0,0,0,0.35);
+    padding: 46px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: "SOFIA";
+    position: absolute;
+    right: -10px;
+    top: -40px;
+    font-size: 130px;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.04);
+    font-weight: 900;
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 66px);
+  }
+  .subtitle {
+    margin-top: 12px;
+    font-size: 18px;
+    color: #cfcfcf;
+    max-width: 700px;
+  }
+  .cta-row { margin-top: 26px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border: 1px solid #f4f4f4;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: 200ms;
+  }
+  .btn:hover { background: #f4f4f4; color: #0b0b0b; }
+  .btn.ghost { border-color: #3a3a3a; color: #d7d7d7; }
+  .btn.ghost:hover { border-color: #f4f4f4; background: #121212; color: #f4f4f4; }
+
+  /* ===== LISTEN / TRACKS ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+
+  .track {
+    border: 1px solid #2b2b2b;
+    background: #0f0f0f;
+    padding: 18px;
+    transition: 200ms;
+    position: relative;
+  }
+  .track:hover {
+    border-color: #f4f4f4;
+    transform: translateY(-4px);
+  }
+  .track-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .track h3 { font-size: 18px; }
+  .tag {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #bdbdbd;
+  }
+  .track p { margin-top: 10px; color: #bdbdbd; font-size: 14px; }
+
+  /* fake player */
+  .player {
+    margin-top: 16px;
+    border-top: 1px solid #242424;
+    padding-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .play {
+    width: 40px; height: 40px;
+    border-radius: 999px;
+    border: 1px solid #f4f4f4;
+    display: grid; place-items: center;
+    font-weight: 800;
+    transition: 200ms;
+    user-select: none;
+  }
+  .track:hover .play { background: #f4f4f4; color: #0b0b0b; }
+  .bar {
+    flex: 1;
+    height: 8px;
+    border: 1px solid #2d2d2d;
+    position: relative;
+    overflow: hidden;
+  }
+  .bar::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 42%;
+    background: #f4f4f4;
+    opacity: 0.18;
+    transform: translateX(-8px);
+  }
+  .time {
+    font-size: 12px;
+    color: #bdbdbd;
+    letter-spacing: 0.08em;
+  }
+
+  /* ===== PIANO KEYS ===== */
+  .piano-wrap {
+    margin-top: 24px;
+    border: 1px solid #2b2b2b;
+    background: #0f0f0f;
+    padding: 18px;
+  }
+  .piano-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .piano-hint {
+    font-size: 12px;
+    color: #9e9e9e;
+    letter-spacing: 0.08em;
+  }
+
+  .piano {
+    position: relative;
+    height: 200px;
+    border: 1px solid #222;
+    background: #0b0b0b;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* white keys layout */
+  .keys {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+  }
+
+  .white {
+    position: relative;
+    background: #f4f4f4;
+    border-right: 1px solid #cfcfcf;
+    color: #0b0b0b;
+    display: grid;
+    align-items: end;
+    padding: 10px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: 120ms;
+  }
+  .white:last-child { border-right: none; }
+
+  .white a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+  }
+
+  /* pressed feel */
+  .white:hover {
+    transform: translateY(2px);
+    filter: brightness(0.92);
+  }
+
+  /* tooltip with full name */
+  .white[data-full]:hover::after {
+    content: attr(data-full);
+    position: absolute;
+    left: 10px;
+    bottom: 52px;
+    background: rgba(0,0,0,0.92);
+    color: #fff;
+    padding: 6px 8px;
+    font-size: 12px;
+    border: 1px solid #333;
+    white-space: nowrap;
+  }
+
+  /* black keys overlay */
+  .black {
+    position: absolute;
+    top: 0;
+    width: 8.5%;
+    height: 62%;
+    background: #111;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.55);
+    transition: 120ms;
+  }
+  .black:hover {
+    transform: translateY(2px);
+    background: #000;
+    border-color: #f4f4f4;
+  }
+
+  /* positions (10 white keys) */
+  .b1 { left: 7.5%; }
+  .b2 { left: 17.5%; }
+  .b3 { left: 37.5%; }
+  .b4 { left: 47.5%; }
+  .b5 { left: 57.5%; }
+  .b6 { left: 77.5%; }
+  .b7 { left: 87.5%; }
+
+  /* ===== CONTACT ===== */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+  @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; } }
+
+  .contact-box {
+    border: 1px solid #2b2b2b;
+    background: #0f0f0f;
+    padding: 16px;
+    opacity: 0.75;
+    cursor: not-allowed;
+  }
+  .contact-box .label {
+    color: #bdbdbd;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .contact-box .value {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #d7d7d7;
+  }
+
+  footer {
+    padding: 26px 0;
+    border-top: 1px solid #1f1f1f;
+    color: #8a8a8a;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner">
+    <div class="brand">SOFIA • JAZZ PIANO</div>
+    <div class="nav-links">
+      <a href="#listen">Listen</a>
+      <a href="#keys">Keys</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-card">
+    <div class="kicker">Jazz Pianist • Piano Covers</div>
+    <h1>SOFIA</h1>
+    <p class="subtitle">
+      Чорно-білий джазовий настрій, живі акорди та імпровізація.
+      Тут можна просто слухати й насолоджуватись: я граю джазові кавери та стандарти у своєму звучанні.
+    </p>
+    <div class="cta-row">
+      <a class="btn" href="#listen">▶ Listen</a>
+      <a class="btn ghost" href="#contact">Contact</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section>
+  <div class="container">
+    <div class="kicker">About</div>
+    <h2>Коротко про мене</h2>
+    <p>
+      Я граю на фортепіано і скоро закінчую музичну школу. Обожнюю джаз і роблю кавери —
+      від ніжних балад до свінгових стандартів. Цей сайт — моя невелика сцена: тут зібрані треки,
+      репертуар і спосіб зв’язатися зі мною.
+    </p>
+  </div>
+</section>
+
+<!-- LISTEN -->
+<section id="listen">
+  <div class="container">
+    <div class="kicker">Listen</div>
+    <h2>Featured covers</h2>
+
+    <div class="grid">
+      <div class="track" id="track-bills">
+        <div class="track-top">
+          <h3>Bill’s Song</h3>
+          <div class="tag">jazz cover</div>
+        </div>
+        <p>Ніжний настрій, м’які акорди, трохи імпровізації.</p>
+
+        <div class="player" aria-hidden="true">
+          <div class="play">▶</div>
+          <div class="bar"></div>
+          <div class="time">02:41</div>
+        </div>
+      </div>
+
+      <div class="track" id="track-allofme">
+        <div class="track-top">
+          <h3>All of Me</h3>
+          <div class="tag">standard</div>
+        </div>
+        <p>Свінгова класика: легко, яскраво, “концертно”.</p>
+
+        <div class="player" aria-hidden="true">
+          <div class="play">▶</div>
+          <div class="bar"></div>
+          <div class="time">03:08</div>
+        </div>
+      </div>
+
+      <div class="track" id="track-soon">
+        <div class="track-top">
+          <h3>Coming Soon</h3>
+          <div class="tag">new</div>
+        </div>
+        <p>Наступний кавер — у підготовці. Додам сюди першою.</p>
+
+        <div class="player" aria-hidden="true">
+          <div class="play">▶</div>
+          <div class="bar"></div>
+          <div class="time">--:--</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEYS -->
+<section id="keys">
+  <div class="container">
+    <div class="kicker">Keys</div>
+    <h2>Repertoire (клавіші-навігація)</h2>
+
+    <div class="piano-wrap">
+      <div class="piano-title">
+        <div class="piano-hint">Клік по клавіші → скролить до треку в Listen.</div>
+        <div class="piano-hint">Hover → “натискання” + підказка повної назви.</div>
+      </div>
+
+      <div class="piano" role="img" aria-label="Піаніно-клавіші з репертуаром">
+        <div class="keys">
+          <div class="white" data-full="Bill’s Song"><a href="#track-bills">Bill’s</a></div>
+          <div class="white" data-full="All of Me"><a href="#track-allofme">All of Me</a></div>
+          <div class="white" data-full="Autumn Leaves"><a href="#track-soon">Autumn</a></div>
+          <div class="white" data-full="Fly Me to the Moon"><a href="#track-soon">Fly Me</a></div>
+          <div class="white" data-full="Blue Bossa"><a href="#track-soon">Bossa</a></div>
+          <div class="white" data-full="Take Five"><a href="#track-soon">Take 5</a></div>
+          <div class="white" data-full="Misty"><a href="#track-soon">Misty</a></div>
+          <div class="white" data-full="Summertime"><a href="#track-soon">Summer</a></div>
+          <div class="white" data-full="My Funny Valentine"><a href="#track-soon">Valentine</a></div>
+          <div class="white" data-full="Improvisation"><a href="#track-soon">Improv</a></div>
+        </div>
+
+        <!-- декоративні чорні клавіші -->
+        <div class="black b1" aria-hidden="true"></div>
+        <div class="black b2" aria-hidden="true"></div>
+        <div class="black b3" aria-hidden="true"></div>
+        <div class="black b4" aria-hidden="true"></div>
+        <div class="black b5" aria-hidden="true"></div>
+        <div class="black b6" aria-hidden="true"></div>
+        <div class="black b7" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="kicker">Contact</div>
+    <h2>Зв’язок</h2>
+    <p>Поки контакти неактивні (плейсхолдери). Потім просто підставиш свої.</p>
+
+    <div class="contact-grid">
+      <div class="contact-box">
+        <div class="label">Telegram</div>
+        <div class="value">@your_username</div>
+      </div>
+      <div class="contact-box">
+        <div class="label">Email</div>
+        <div class="value">yourmail@example.com</div>
+      </div>
+      <div class="contact-box">
+        <div class="label">Phone</div>
+        <div class="value">+00 000 000 00 00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © Sofia — Jazz Pianist • Black & White Piano Portfolio
+</footer>
+
+</body>
+</html>
