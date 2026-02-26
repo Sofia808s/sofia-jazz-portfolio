@@ -31,6 +31,22 @@
     margin-bottom: 14px;
   }
 
+  /* ===== SMOOTH MAGIC REVEAL ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 900ms ease, transform 900ms ease;
+    will-change: opacity, transform;
+  }
+  .reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
   /* ===== NAV ===== */
   .nav {
     position: fixed;
@@ -101,14 +117,12 @@
     font-weight: 900;
     pointer-events: none;
   }
-  .hero h1 {
-    font-size: clamp(40px, 6vw, 66px);
-  }
+  .hero h1 { font-size: clamp(40px, 6vw, 66px); }
   .subtitle {
     margin-top: 12px;
     font-size: 18px;
     color: #cfcfcf;
-    max-width: 700px;
+    max-width: 740px;
   }
   .cta-row { margin-top: 26px; display: flex; gap: 12px; flex-wrap: wrap; }
 
@@ -209,18 +223,6 @@
     background: #0f0f0f;
     padding: 18px;
   }
-  .piano-title {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    align-items: baseline;
-    margin-bottom: 14px;
-  }
-  .piano-hint {
-    font-size: 12px;
-    color: #9e9e9e;
-    letter-spacing: 0.08em;
-  }
 
   .piano {
     position: relative;
@@ -231,7 +233,6 @@
     user-select: none;
   }
 
-  /* white keys layout */
   .keys {
     position: absolute;
     inset: 0;
@@ -248,26 +249,16 @@
     align-items: end;
     padding: 10px 10px;
     font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    font-weight: 800;
+    letter-spacing: 0.01em;
     transition: 120ms;
+    cursor: pointer;
   }
   .white:last-child { border-right: none; }
 
-  .white a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    color: inherit;
-  }
+  .white:hover { transform: translateY(2px); filter: brightness(0.92); }
 
-  /* pressed feel */
-  .white:hover {
-    transform: translateY(2px);
-    filter: brightness(0.92);
-  }
-
-  /* tooltip with full name */
+  /* optional tooltip with full name */
   .white[data-full]:hover::after {
     content: attr(data-full);
     position: absolute;
@@ -281,7 +272,6 @@
     white-space: nowrap;
   }
 
-  /* black keys overlay */
   .black {
     position: absolute;
     top: 0;
@@ -291,14 +281,9 @@
     border: 1px solid #2a2a2a;
     box-shadow: 0 10px 20px rgba(0,0,0,0.55);
     transition: 120ms;
-  }
-  .black:hover {
-    transform: translateY(2px);
-    background: #000;
-    border-color: #f4f4f4;
+    pointer-events: none; /* тільки декор */
   }
 
-  /* positions (10 white keys) */
   .b1 { left: 7.5%; }
   .b2 { left: 17.5%; }
   .b3 { left: 37.5%; }
@@ -320,7 +305,7 @@
     border: 1px solid #2b2b2b;
     background: #0f0f0f;
     padding: 16px;
-    opacity: 0.75;
+    opacity: 0.85;
     cursor: not-allowed;
   }
   .contact-box .label {
@@ -362,12 +347,12 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-card">
+  <div class="hero-card reveal show">
     <div class="kicker">Jazz Pianist • Piano Covers</div>
     <h1>SOFIA</h1>
     <p class="subtitle">
-      Чорно-білий джазовий настрій, живі акорди та імпровізація.
-      Тут можна просто слухати й насолоджуватись: я граю джазові кавери та стандарти у своєму звучанні.
+      Тут ви знайдете джазові композиції, живі акорди та багато імпровізації.
+      Тут ви зможете просто слухати і насолоджуватись — бо я граю музику, яка торкається душі.
     </p>
     <div class="cta-row">
       <a class="btn" href="#listen">▶ Listen</a>
@@ -377,7 +362,7 @@
 </section>
 
 <!-- ABOUT -->
-<section>
+<section class="reveal">
   <div class="container">
     <div class="kicker">About</div>
     <h2>Коротко про мене</h2>
@@ -390,13 +375,13 @@
 </section>
 
 <!-- LISTEN -->
-<section id="listen">
+<section id="listen" class="reveal">
   <div class="container">
     <div class="kicker">Listen</div>
     <h2>Featured covers</h2>
 
     <div class="grid">
-      <div class="track" id="track-bills">
+      <div class="track">
         <div class="track-top">
           <h3>Bill’s Song</h3>
           <div class="tag">jazz cover</div>
@@ -410,7 +395,7 @@
         </div>
       </div>
 
-      <div class="track" id="track-allofme">
+      <div class="track">
         <div class="track-top">
           <h3>All of Me</h3>
           <div class="tag">standard</div>
@@ -424,12 +409,12 @@
         </div>
       </div>
 
-      <div class="track" id="track-soon">
+      <div class="track">
         <div class="track-top">
           <h3>Coming Soon</h3>
           <div class="tag">new</div>
         </div>
-        <p>Наступний кавер — у підготовці. Додам сюди першою.</p>
+        <p>Додам сюди, як тільки він зʼявиться!</p>
 
         <div class="player" aria-hidden="true">
           <div class="play">▶</div>
@@ -442,29 +427,25 @@
 </section>
 
 <!-- KEYS -->
-<section id="keys">
+<section id="keys" class="reveal">
   <div class="container">
     <div class="kicker">Keys</div>
-    <h2>Repertoire (клавіші-навігація)</h2>
+    <h2>Repertoire</h2>
 
     <div class="piano-wrap">
-      <div class="piano-title">
-        <div class="piano-hint">Клік по клавіші → скролить до треку в Listen.</div>
-        <div class="piano-hint">Hover → “натискання” + підказка повної назви.</div>
-      </div>
-
       <div class="piano" role="img" aria-label="Піаніно-клавіші з репертуаром">
         <div class="keys">
-          <div class="white" data-full="Bill’s Song"><a href="#track-bills">Bill’s</a></div>
-          <div class="white" data-full="All of Me"><a href="#track-allofme">All of Me</a></div>
-          <div class="white" data-full="Autumn Leaves"><a href="#track-soon">Autumn</a></div>
-          <div class="white" data-full="Fly Me to the Moon"><a href="#track-soon">Fly Me</a></div>
-          <div class="white" data-full="Blue Bossa"><a href="#track-soon">Bossa</a></div>
-          <div class="white" data-full="Take Five"><a href="#track-soon">Take 5</a></div>
-          <div class="white" data-full="Misty"><a href="#track-soon">Misty</a></div>
-          <div class="white" data-full="Summertime"><a href="#track-soon">Summer</a></div>
-          <div class="white" data-full="My Funny Valentine"><a href="#track-soon">Valentine</a></div>
-          <div class="white" data-full="Improvisation"><a href="#track-soon">Improv</a></div>
+          <div class="white" data-full="Bill’s Song">Bill’s Song</div>
+          <div class="white" data-full="Fly Me to the Moon">Fly me to the moon</div>
+          <div class="white" data-full="Summertime">SummerTime</div>
+
+          <div class="white" data-full="All of Me">All of Me</div>
+          <div class="white" data-full="Autumn Leaves">Autumn</div>
+          <div class="white" data-full="Blue Bossa">Bossa</div>
+          <div class="white" data-full="Take Five">Take 5</div>
+          <div class="white" data-full="Misty">Misty</div>
+          <div class="white" data-full="My Funny Valentine">Valentine</div>
+          <div class="white" data-full="Improvisation">Improv</div>
         </div>
 
         <!-- декоративні чорні клавіші -->
@@ -481,20 +462,19 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
+<section id="contact" class="reveal">
   <div class="container">
     <div class="kicker">Contact</div>
     <h2>Зв’язок</h2>
-    <p>Поки контакти неактивні (плейсхолдери). Потім просто підставиш свої.</p>
 
     <div class="contact-grid">
       <div class="contact-box">
         <div class="label">Telegram</div>
-        <div class="value">@your_username</div>
+        <div class="value">@sofia</div>
       </div>
       <div class="contact-box">
         <div class="label">Email</div>
-        <div class="value">yourmail@example.com</div>
+        <div class="value">@sofia</div>
       </div>
       <div class="contact-box">
         <div class="label">Phone</div>
@@ -505,8 +485,23 @@
 </section>
 
 <footer>
-  © Sofia — Jazz Pianist • Black & White Piano Portfolio
+  © Sofia — Jazz Pianist
 </footer>
+
+<script>
+  // Smooth "magic" reveal on scroll
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('show');
+        io.unobserve(e.target);
+      }
+    }
+  }, { threshold: 0.12 });
+
+  items.forEach(el => io.observe(el));
+</script>
 
 </body>
 </html>
