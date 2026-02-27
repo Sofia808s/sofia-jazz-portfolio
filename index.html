@@ -6,334 +6,70 @@
 <title>Sofia — Jazz Pianist</title>
 
 <style>
-  /* ===== RESET ===== */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: #0b0b0b;
-    color: #f4f4f4;
-    line-height: 1.6;
-  }
-  a { color: inherit; text-decoration: none; }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,Arial;background:#0b0b0b;color:#f4f4f4;line-height:1.6}
+.container{width:min(1100px,92%);margin:auto}
+section{padding:84px 0;border-top:1px solid #1f1f1f}
+h1,h2{letter-spacing:.06em}
+h2{font-size:28px;margin-bottom:20px}
+p{color:#d7d7d7}
+.kicker{letter-spacing:.25em;font-size:12px;color:#bdbdbd;text-transform:uppercase;margin-bottom:14px}
 
-  .container { width: min(1100px, 92%); margin: 0 auto; }
-  section { padding: 84px 0; border-top: 1px solid #1f1f1f; }
-  h1, h2 { letter-spacing: 0.06em; }
-  h2 { font-size: 28px; margin-bottom: 20px; }
-  p { color: #d7d7d7; }
+/* reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:.9s}
+.reveal.show{opacity:1;transform:none}
 
-  .kicker {
-    letter-spacing: 0.25em;
-    font-size: 12px;
-    color: #bdbdbd;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-  }
+/* nav */
+.nav{position:fixed;top:16px;left:0;right:0;z-index:30}
+.nav-inner{width:min(1100px,92%);margin:auto;display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border:1px solid #242424;background:rgba(10,10,10,.65);backdrop-filter:blur(10px)}
+.brand{font-weight:800;letter-spacing:.22em;font-size:12px;text-transform:uppercase}
+.nav-links{display:flex;gap:10px}
+.nav-links a{font-size:12px;color:#cfcfcf;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;border:1px solid transparent;transition:.2s}
+.nav-links a:hover{border-color:#fff;color:#000;background:#fff}
 
-  /* ===== SMOOTH MAGIC REVEAL ===== */
-  .reveal {
-    opacity: 0;
-    transform: translateY(22px);
-    transition: opacity 900ms ease, transform 900ms ease;
-    will-change: opacity, transform;
-  }
-  .reveal.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .reveal { opacity: 1; transform: none; transition: none; }
-  }
+/* hero */
+.hero{min-height:100vh;display:grid;place-items:center;padding:110px 0 70px;border-top:none;background:radial-gradient(650px 320px at 35% 30%,rgba(255,255,255,.10),transparent 60%),radial-gradient(520px 260px at 65% 35%,rgba(255,255,255,.06),transparent 60%),linear-gradient(to bottom,#000,#0b0b0b)}
+.hero-card{width:min(920px,92%);border:1px solid #222;background:rgba(0,0,0,.35);padding:46px 36px;position:relative}
+.hero-card::before{content:"SOFIA";position:absolute;right:-10px;top:-40px;font-size:130px;letter-spacing:.18em;color:rgba(255,255,255,.04);font-weight:900}
+.subtitle{margin-top:12px;font-size:18px;color:#cfcfcf;max-width:740px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border:1px solid #fff;font-size:12px;letter-spacing:.14em;text-transform:uppercase;transition:.2s}
+.btn:hover{background:#fff;color:#000}
+.btn.ghost{border-color:#3a3a3a;color:#d7d7d7}
+.btn.ghost:hover{border-color:#fff;background:#121212;color:#fff}
+.cta-row{margin-top:26px;display:flex;gap:12px}
 
-  /* ===== NAV ===== */
-  .nav {
-    position: fixed;
-    top: 16px; left: 0; right: 0;
-    z-index: 30;
-  }
-  .nav-inner {
-    width: min(1100px, 92%);
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 14px;
-    border: 1px solid #242424;
-    background: rgba(10,10,10,0.65);
-    backdrop-filter: blur(10px);
-  }
-  .brand {
-    font-weight: 800;
-    letter-spacing: 0.22em;
-    font-size: 12px;
-    text-transform: uppercase;
-  }
-  .nav-links { display: flex; gap: 10px; }
-  .nav-links a {
-    font-size: 12px;
-    color: #cfcfcf;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 8px 10px;
-    border: 1px solid transparent;
-    transition: 180ms;
-  }
-  .nav-links a:hover {
-    border-color: #f4f4f4;
-    color: #0b0b0b;
-    background: #f4f4f4;
-  }
+/* tracks */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+.track{border:1px solid #2b2b2b;background:#0f0f0f;padding:18px;transition:.2s}
+.track:hover{border-color:#fff;transform:translateY(-4px)}
+.track-top{display:flex;justify-content:space-between}
+.tag{font-size:11px;letter-spacing:.12em;color:#bdbdbd;text-transform:uppercase}
+.player{margin-top:14px;border:1px solid #242424}
 
-  /* ===== HERO ===== */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    padding: 110px 0 70px;
-    border-top: none;
-    background:
-      radial-gradient(650px 320px at 35% 30%, rgba(255,255,255,0.10), transparent 60%),
-      radial-gradient(520px 260px at 65% 35%, rgba(255,255,255,0.06), transparent 60%),
-      linear-gradient(to bottom, #000, #0b0b0b);
-  }
-  .hero-card {
-    width: min(920px, 92%);
-    border: 1px solid #222;
-    background: rgba(0,0,0,0.35);
-    padding: 46px 36px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-card::before {
-    content: "SOFIA";
-    position: absolute;
-    right: -10px;
-    top: -40px;
-    font-size: 130px;
-    letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.04);
-    font-weight: 900;
-    pointer-events: none;
-  }
-  .hero h1 { font-size: clamp(40px, 6vw, 66px); }
-  .subtitle {
-    margin-top: 12px;
-    font-size: 18px;
-    color: #cfcfcf;
-    max-width: 740px;
-  }
-  .cta-row { margin-top: 26px; display: flex; gap: 12px; flex-wrap: wrap; }
+/* piano */
+.piano-wrap{margin-top:24px;border:1px solid #2b2b2b;background:#0f0f0f;padding:18px}
+.piano{position:relative;height:200px;border:1px solid #222;background:#0b0b0b;overflow:hidden}
+.keys{position:absolute;inset:0;display:grid;grid-template-columns:repeat(10,1fr)}
+.white{background:#f4f4f4;border-right:1px solid #cfcfcf;color:#000;display:grid;align-items:end;padding:10px;font-size:12px;font-weight:800;transition:.12s}
+.white:hover{transform:translateY(2px);filter:brightness(.92)}
+.black{position:absolute;top:0;width:8.5%;height:62%;background:#111;border:1px solid #2a2a2a;box-shadow:0 10px 20px rgba(0,0,0,.55)}
+.b1{left:7.5%}.b2{left:17.5%}.b3{left:37.5%}.b4{left:47.5%}.b5{left:57.5%}.b6{left:77.5%}.b7{left:87.5%}
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 18px;
-    border: 1px solid #f4f4f4;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    transition: 200ms;
-  }
-  .btn:hover { background: #f4f4f4; color: #0b0b0b; }
-  .btn.ghost { border-color: #3a3a3a; color: #d7d7d7; }
-  .btn.ghost:hover { border-color: #f4f4f4; background: #121212; color: #f4f4f4; }
+/* contact */
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media(max-width:880px){.contact-grid{grid-template-columns:1fr}}
+.contact-box{border:1px solid #2b2b2b;background:#0f0f0f;padding:16px;opacity:.85}
+.label{color:#bdbdbd;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.value{margin-top:8px;font-size:14px;color:#d7d7d7}
 
-  /* ===== LISTEN / TRACKS ===== */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-  }
-  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
-
-  .track {
-    border: 1px solid #2b2b2b;
-    background: #0f0f0f;
-    padding: 18px;
-    transition: 200ms;
-    position: relative;
-  }
-  .track:hover {
-    border-color: #f4f4f4;
-    transform: translateY(-4px);
-  }
-  .track-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    align-items: baseline;
-  }
-  .track h3 { font-size: 18px; }
-  .tag {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #bdbdbd;
-  }
-  .track p { margin-top: 10px; color: #bdbdbd; font-size: 14px; }
-
-  /* fake player */
-  .player {
-    margin-top: 16px;
-    border-top: 1px solid #242424;
-    padding-top: 14px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .play {
-    width: 40px; height: 40px;
-    border-radius: 999px;
-    border: 1px solid #f4f4f4;
-    display: grid; place-items: center;
-    font-weight: 800;
-    transition: 200ms;
-    user-select: none;
-  }
-  .track:hover .play { background: #f4f4f4; color: #0b0b0b; }
-  .bar {
-    flex: 1;
-    height: 8px;
-    border: 1px solid #2d2d2d;
-    position: relative;
-    overflow: hidden;
-  }
-  .bar::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 42%;
-    background: #f4f4f4;
-    opacity: 0.18;
-    transform: translateX(-8px);
-  }
-  .time {
-    font-size: 12px;
-    color: #bdbdbd;
-    letter-spacing: 0.08em;
-  }
-
-  /* ===== PIANO KEYS ===== */
-  .piano-wrap {
-    margin-top: 24px;
-    border: 1px solid #2b2b2b;
-    background: #0f0f0f;
-    padding: 18px;
-  }
-
-  .piano {
-    position: relative;
-    height: 200px;
-    border: 1px solid #222;
-    background: #0b0b0b;
-    overflow: hidden;
-    user-select: none;
-  }
-
-  .keys {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-  }
-
-  .white {
-    position: relative;
-    background: #f4f4f4;
-    border-right: 1px solid #cfcfcf;
-    color: #0b0b0b;
-    display: grid;
-    align-items: end;
-    padding: 10px 10px;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.01em;
-    transition: 120ms;
-    cursor: pointer;
-  }
-  .white:last-child { border-right: none; }
-
-  .white:hover { transform: translateY(2px); filter: brightness(0.92); }
-
-  /* optional tooltip with full name */
-  .white[data-full]:hover::after {
-    content: attr(data-full);
-    position: absolute;
-    left: 10px;
-    bottom: 52px;
-    background: rgba(0,0,0,0.92);
-    color: #fff;
-    padding: 6px 8px;
-    font-size: 12px;
-    border: 1px solid #333;
-    white-space: nowrap;
-  }
-
-  .black {
-    position: absolute;
-    top: 0;
-    width: 8.5%;
-    height: 62%;
-    background: #111;
-    border: 1px solid #2a2a2a;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.55);
-    transition: 120ms;
-    pointer-events: none; /* тільки декор */
-  }
-
-  .b1 { left: 7.5%; }
-  .b2 { left: 17.5%; }
-  .b3 { left: 37.5%; }
-  .b4 { left: 47.5%; }
-  .b5 { left: 57.5%; }
-  .b6 { left: 77.5%; }
-  .b7 { left: 87.5%; }
-
-  /* ===== CONTACT ===== */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-    margin-top: 18px;
-  }
-  @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; } }
-
-  .contact-box {
-    border: 1px solid #2b2b2b;
-    background: #0f0f0f;
-    padding: 16px;
-    opacity: 0.85;
-    cursor: not-allowed;
-  }
-  .contact-box .label {
-    color: #bdbdbd;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .contact-box .value {
-    margin-top: 8px;
-    font-size: 14px;
-    color: #d7d7d7;
-  }
-
-  footer {
-    padding: 26px 0;
-    border-top: 1px solid #1f1f1f;
-    color: #8a8a8a;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-align: center;
-  }
+footer{padding:26px 0;border-top:1px solid #1f1f1f;color:#8a8a8a;font-size:12px;text-align:center}
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <div class="nav">
   <div class="nav-inner">
     <div class="brand">SOFIA • JAZZ PIANO</div>
@@ -345,7 +81,6 @@
   </div>
 </div>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-card reveal show">
     <div class="kicker">Jazz Pianist • Piano Covers</div>
@@ -361,51 +96,37 @@
   </div>
 </section>
 
-<!-- ABOUT -->
 <section class="reveal">
   <div class="container">
     <div class="kicker">About</div>
     <h2>Коротко про мене</h2>
     <p>
       Я граю на фортепіано і скоро закінчую музичну школу. Обожнюю джаз і роблю кавери —
-      від ніжних балад до свінгових стандартів. Цей сайт — моя невелика сцена: тут зібрані треки,
-      репертуар і спосіб зв’язатися зі мною.
+      від ніжних балад до свінгових стандартів.
     </p>
   </div>
 </section>
 
-<!-- LISTEN -->
 <section id="listen" class="reveal">
   <div class="container">
     <div class="kicker">Listen</div>
     <h2>Featured covers</h2>
 
     <div class="grid">
-      <div class="track">
-        <div class="track-top">
-          <h3>Bill’s Song</h3>
-          <div class="tag">jazz cover</div>
-        </div>
-        <p>Ніжний настрій, м’які акорди, трохи імпровізації.</p>
-
-        <div class="player" aria-hidden="true">
-          <div class="play">▶</div>
-          <div class="bar"></div>
-          <div class="time">02:41</div>
-        </div>
-      </div>
 
       <div class="track">
         <div class="track-top">
-          <h3>All of Me</h3>
-          <div class="tag">standard</div>
+          <h3>Autumn Leaves</h3>
+          <div class="tag">jazz</div>
         </div>
-        <p>Свінгова класика: легко, яскраво, “концертно”.</p>
+        <p>Ліричний джазовий стандарт у фортепіанному звучанні.</p>
 
-        <div class="player" aria-hidden="true">
-          <div class="play">▶</div>
-          <div class="bar"></div>
-          <div class="time">03:08</div>
+        <div class="player">
+          <iframe width="100%" height="200"
+          src="https://www.youtube.com/embed/KB-hzqUF0kU"
+          title="Autumn Leaves"
+          frameborder="0"
+          allowfullscreen></iframe>
         </div>
       </div>
 
@@ -415,53 +136,52 @@
           <div class="tag">new</div>
         </div>
         <p>Додам сюди, як тільки він зʼявиться!</p>
-
-        <div class="player" aria-hidden="true">
-          <div class="play">▶</div>
-          <div class="bar"></div>
-          <div class="time">--:--</div>
-        </div>
       </div>
+
+      <div class="track">
+        <div class="track-top">
+          <h3>Coming Soon</h3>
+          <div class="tag">new</div>
+        </div>
+        <p>Додам сюди, як тільки він зʼявиться!</p>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- KEYS -->
 <section id="keys" class="reveal">
   <div class="container">
     <div class="kicker">Keys</div>
     <h2>Repertoire</h2>
 
     <div class="piano-wrap">
-      <div class="piano" role="img" aria-label="Піаніно-клавіші з репертуаром">
+      <div class="piano">
         <div class="keys">
-          <div class="white" data-full="Bill’s Song">Bill’s Song</div>
-          <div class="white" data-full="Fly Me to the Moon">Fly me to the moon</div>
-          <div class="white" data-full="Summertime">SummerTime</div>
-
-          <div class="white" data-full="All of Me">All of Me</div>
-          <div class="white" data-full="Autumn Leaves">Autumn</div>
-          <div class="white" data-full="Blue Bossa">Bossa</div>
-          <div class="white" data-full="Take Five">Take 5</div>
-          <div class="white" data-full="Misty">Misty</div>
-          <div class="white" data-full="My Funny Valentine">Valentine</div>
-          <div class="white" data-full="Improvisation">Improv</div>
+          <div class="white">Bill’s Song</div>
+          <div class="white">Fly me to the moon</div>
+          <div class="white">SummerTime</div>
+          <div class="white">Autumn Leaves</div>
+          <div class="white">Blue Bossa</div>
+          <div class="white">Take 5</div>
+          <div class="white">Misty</div>
+          <div class="white">Valentine</div>
+          <div class="white">Improv</div>
+          <div class="white">Jazz</div>
         </div>
 
-        <!-- декоративні чорні клавіші -->
-        <div class="black b1" aria-hidden="true"></div>
-        <div class="black b2" aria-hidden="true"></div>
-        <div class="black b3" aria-hidden="true"></div>
-        <div class="black b4" aria-hidden="true"></div>
-        <div class="black b5" aria-hidden="true"></div>
-        <div class="black b6" aria-hidden="true"></div>
-        <div class="black b7" aria-hidden="true"></div>
+        <div class="black b1"></div>
+        <div class="black b2"></div>
+        <div class="black b3"></div>
+        <div class="black b4"></div>
+        <div class="black b5"></div>
+        <div class="black b6"></div>
+        <div class="black b7"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact" class="reveal">
   <div class="container">
     <div class="kicker">Contact</div>
@@ -489,18 +209,13 @@
 </footer>
 
 <script>
-  // Smooth "magic" reveal on scroll
-  const items = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting) {
-        e.target.classList.add('show');
-        io.unobserve(e.target);
-      }
-    }
-  }, { threshold: 0.12 });
-
-  items.forEach(el => io.observe(el));
+const items=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){e.target.classList.add('show');}
+});
+},{threshold:.12});
+items.forEach(el=>io.observe(el));
 </script>
 
 </body>
